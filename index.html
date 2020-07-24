@@ -49,20 +49,32 @@
       <div class="col-12 entry-seed">
         <p>Write your mnemonic seed down below</p>
 
-        <div class="input-group">
-          <span class="input-group-text">1.</span>
-          <input type="text" class="form-control">
-          <span class="input-group-text">2.</span>
-          <input type="text" class="form-control">
+        <div class="row seed-input-group"></div>
+
+      </div>
+
+      <div class="col-12 entry-private-key" style="display: none;">
+        <p>Write your private key down below</p>
+
+        <input type="text" class="form-control" placeholder="enter private key">
+      </div>
+
+      <div class="col-12 entry-text" style="display: none;">
+        <p>Write your secret text down below</p>
+
+        <textarea class="form-control" rows="3" placeholder="enter secret text"></textarea>
+      </div>
+
+      <div class="col-md-9 mx-auto mt-4 split-the-secret" data-secreto="seed">
+        <button type="button" class="btn btn-primary btn-lg btn-block">Split Secret</button>
+      </div>
+
+      <div class="col-12 parts">
+        <h2>Parts</h2>
+
+        <div class="split-parts">
+
         </div>
-      </div>
-
-      <div class="col-12 entry-private-key">
-
-      </div>
-
-      <div class="col-12 entry-text">
-      
       </div>
     </div>
 
