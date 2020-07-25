@@ -133,7 +133,7 @@ function renderSeedInput(words) {
       <div class="col-md-4 mb-3">
         <div class="input-group">
           <span class="input-group-text">`+ num + `.</span>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" placeholder="enter word `+ num +`">
         </div>
       </div>
     `
@@ -196,6 +196,6 @@ function combineSecret() {
 
 function addSharesInput() {
   $('.shares-input .inputs').append(`
-    <input type="text" class="form-control mb-2" placeholder="Enter a share">
+    <input type="text" class="form-control mb-2" placeholder="enter a share">
   `)
 }
