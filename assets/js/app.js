@@ -153,12 +153,13 @@ function renderTextInput() {
 function splitSecret(secret) {
   let threshold = parseInt($('.threshold').val())
   let totalShares = parseInt($('.total-shares').val())
+  let padLength = 1024
   
   // convert the text into a hex string
   var toHex = secrets.str2hex(secret)
 
   // split into shares, with a threshold
-  var parts = secrets.share(toHex, totalShares, threshold)
+  var parts = secrets.share(toHex, totalShares, threshold, padLength)
 
   $('.split-parts').empty()
 
