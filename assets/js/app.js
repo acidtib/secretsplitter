@@ -20,39 +20,86 @@ $(document).ready(function(){
     $(".splitting").text(": " + normal)
 
     render(type)
-  });
+  })
 
   $(".split-the-secret .btn").on("click", function (event) {
     event.preventDefault()
 
-    splitSecret("helllo")
-  });
+    let data = ""
 
-});
+    let secretoType = $('.split-the-secret .btn').attr("data-secreto")
+
+    if (secretoType == "text") {
+      data = $('.entry-text textarea').val()
+    }
+
+    if (secretoType == "private-key") {
+      data = $('.entry-private-key input').val()
+    }
+
+    if (secretoType == "seed") {
+      var theSeed = new Array()
+
+      $(".seed-input-group .input-group input").each( function( key, value ) {
+        let num = key + 1
+        let word = $(this).val()
+
+        theSeed.push(num + ': ' + word)
+      })
+
+      data = theSeed.join("  ")
+    }
+
+    splitSecret(data)
+  })
+
+
+  $(".shares-input .clear-shares-input").on("click", function (event) {
+    event.preventDefault()
+
+    $('.shares-input .inputs').empty()
+
+    $('.reconstruct-result').hide()
+    $('.reconstruct-result textarea').empty()
+
+    addSharesInput()
+  })
+
+  $(".shares-input .add-shares-input").on("click", function (event) {
+    event.preventDefault()
+
+    addSharesInput()
+  })
+
+  $(".reconstruct-the-secret").on("click", function (event) {
+    event.preventDefault()
+
+    combineSecret()
+  })
+
+})
 
 function init() {
-  $(".splitting").text(": Mnemonic Seed")
-  $(".seed-size").text(": 12")
-  renderSeedInput(12)
-  render('seed')
+  $(".splitting").text(": Text")
+  render('text')
 }
 
 function normalName(type) {
   switch (type) {
     case "seed":
       return "Mnemonic Seed"
-      break;
+      break
     case "private-key":
       return "Private Key"
-      break;
+      break
     case "text":
       return "Text"
-      break;
+      break
   }
 }
 
 function render(type) {
-  $('.split-the-secret').attr("data-secreto", type)
+  $('.split-the-secret .btn').attr("data-secreto", type)
   
   switch (type) {
     case "seed":
@@ -60,24 +107,24 @@ function render(type) {
       $('.entry-text').hide()
 
       $('.entry-seed').show()
-      break;
+      break
     case "private-key":
       $('.entry-seed').hide()
       $('.entry-text').hide()
 
       renderPrivateKeyInput()
-      break;
+      break
     case "text":
       $('.entry-private-key').hide()
       $('.entry-seed').hide()
 
       renderTextInput()
-      break;
+      break
   }
 }
 
 function renderSeedInput(words) {
-  $('.seed-input-group').empty();
+  $('.seed-input-group').empty()
 
   $.each(new Array(parseInt(words)), function(n) {
     let num = n + 1
@@ -92,7 +139,7 @@ function renderSeedInput(words) {
     `
 
     $('.seed-input-group').append(temp)
-  });
+  })
 }
 
 function renderPrivateKeyInput() {
@@ -104,15 +151,50 @@ function renderTextInput() {
 }
 
 function splitSecret(secret) {
+  let threshold = parseInt($('.threshold').val())
+  let totalShares = parseInt($('.total-shares').val())
+  
   // convert the text into a hex string
-  var toHex = secrets.str2hex(secret) // => hex string
+  var toHex = secrets.str2hex(secret)
 
-  // split into 5 shares, with a threshold of 3
-  var parts = secrets.share(toHex, 5, 3)
+  // split into shares, with a threshold
+  var parts = secrets.share(toHex, totalShares, threshold)
 
+  $('.split-parts').empty()
 
-  $('.split-parts').append(parts)
+  $.each( parts, function( key, value ) {
+    let num = key + 1
 
+    $('.split-parts').append(`
+      <div class="input-group mb-2">
+        <span class="input-group-text">`+ num +`.</span>
+        <input type="text" class="form-control" value="`+ value +`">
+      </div>
+    `)
 
-  console.log(parts)
+    $('.parts').show()
+  })
+}
+
+function combineSecret() {
+  const theShares = new Array()
+
+  $(".shares-input .inputs input").each( function( key, value ) {
+    let share = $(this).val()
+
+    theShares.push(share)
+  })
+
+  let comb = secrets.combine(theShares)
+
+  let data = secrets.hex2str(comb)
+
+  $('.reconstruct-result textarea').val(data)
+  $('.reconstruct-result').show()
+}
+
+function addSharesInput() {
+  $('.shares-input .inputs').append(`
+    <input type="text" class="form-control mb-2" placeholder="Enter a share">
+  `)
 }

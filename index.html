@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Document</title>
+  <title>Secret Splitter</title>
 
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
@@ -18,16 +18,26 @@
 
   <div class="container">
 
-    <p>Split your secret into parts which can be combined back into the original secret using some or all of the parts.</p>
+    <div class="row mt-5 mb-5">
+      <div class="col-12 mb-4">
+        <h1>Secret Splitter</h1>
+        <p>Split your secret into shares which can be combined back into the original secret using some or all of the shares.</p>
+      </div>
 
-    <div class="row">
       <div class="col-12">
         <div class="row">
-          <div class="col-6">
+          <div class="col-md-6">
             <h2>Split<span class="splitting"></span></h2>
+            <p>
+              Require 
+              <input type="number" class="form-control form-control-sm threshold" min="2" max="255" value="3" style="width: 62px; display: inline;"> 
+              shares from 
+              <input type="number" class="form-control form-control-sm total-shares" min="2" max="255" value="5" style="width: 62px; display: inline;"> 
+              to reconstruct
+            </p>
           </div>
       
-          <div class="col-6 text-right">
+          <div class="col-md-6 text-right">
             <div class="btn-group split-btns">
               <div class="btn-group" role="group">
                 <button id="seedSize" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -50,7 +60,6 @@
         <p>Write your mnemonic seed down below</p>
 
         <div class="row seed-input-group"></div>
-
       </div>
 
       <div class="col-12 entry-private-key" style="display: none;">
@@ -65,20 +74,60 @@
         <textarea class="form-control" rows="3" placeholder="enter secret text"></textarea>
       </div>
 
-      <div class="col-md-9 mx-auto mt-4 split-the-secret" data-secreto="seed">
-        <button type="button" class="btn btn-primary btn-lg btn-block">Split Secret</button>
+      <div class="col-md-9 mx-auto mt-4 split-the-secret">
+        <button type="button" class="btn btn-primary btn-lg btn-block" data-secreto="text">Split Secret</button>
       </div>
 
-      <div class="col-12 parts">
-        <h2>Parts</h2>
+      <div class="col-12 parts mt-5" style="display: none;">
+        <h2>Shares:</h2>
 
-        <div class="split-parts">
+        <div class="split-parts"></div>
+      </div>
+    </div>
 
+    <hr>
+
+    <div class="row mt-5">
+      <div class="col-12">
+        <h2>Reconstruct a Secret:</h2>
+        <p>Enter one share in each input box. Make sure you enter at least the threshold number of shares.</p>
+      </div>
+
+      <div class="col-12 shares-input">
+        <div class="inputs mb-3">
+          <input type="text" class="form-control mb-2" placeholder="Enter a share">
         </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-primary btn-block reconstruct-the-secret">Reconstruct</button>
+            </div>
+          </div>
+
+          <div class="col-md-6 text-right">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-outline-secondary clear-shares-input">Clear All</button>
+              <button type="button" class="btn btn-outline-secondary add-shares-input">+ Add Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 reconstruct-result mt-3" style="display: none;">
+        <h2>Reconstructed secret</h2>
+
+        <textarea class="form-control" rows="3"></textarea>
       </div>
     </div>
 
   </div>
+
+  <footer class="footer mt-5 py-3 bg-light">
+    <div class="container">
+      <span class="text-muted">This tool has been designed to work offline. Download the latest build from <a href="https://github.com/arubinofaux/secretsplitter">Github</a></span>
+    </div>
+  </footer>
   
 </body>
 </html>
