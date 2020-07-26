@@ -77,6 +77,12 @@ $(document).ready(function(){
     combineSecret()
   })
 
+  $(".parts .generate-txt").on("click", function (event) {
+    event.preventDefault()
+
+    generateTxt()
+  })
+
 })
 
 function init() {
@@ -203,4 +209,20 @@ function addSharesInput() {
 
 function copy(value) {
   clipboard.writeText(value);
+}
+
+function generateTxt() {
+  let shares = new Array()
+  let data = ""
+
+  $(".parts .split-parts input").each( function( key, value ) {
+    let share = $(this).val()
+
+    shares.push(share)
+  })
+
+  data = shares.join("\r\n\r\n\r\n")
+
+  let blob = new Blob([data], { type: "text/plain;charset=utf-8" })
+  saveAs(blob, "shares.txt")
 }
