@@ -170,6 +170,7 @@ function splitSecret(secret) {
       <div class="input-group mb-2">
         <span class="input-group-text">`+ num +`.</span>
         <input type="text" class="form-control" value="`+ value +`">
+        <span class="input-group-text p-1"><button type="button" class="btn btn-success btn-sm pt-0" onclick="copy('`+ value +`')">copy</button></span>
       </div>
     `)
 
@@ -198,4 +199,8 @@ function addSharesInput() {
   $('.shares-input .inputs').append(`
     <input type="text" class="form-control mb-2" placeholder="enter a share">
   `)
+}
+
+function copy(value) {
+  clipboard.writeText(value);
 }
